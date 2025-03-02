@@ -34,6 +34,13 @@ const menuContainer = document.createElement('div'); // div elem letrehozasa ami
 document.body.appendChild(menuContainer); // hozzafuzes a bodyhoz
 
 // a kert segedfuggvenyek
+
+/**
+ * label elem letrehozasa
+ * @param {string} forCucc input elem azonositoja amire mutat a label
+ * @param {string} text a label szovege
+ * @returns {HTMLLabelElement} kesz label elem
+ */
 function createLabel(forCucc, text) { // label elem letrehozasa
     const label = document.createElement('label'); // label elem letrehozasa
     label.htmlFor = forCucc; // for beallitasa
@@ -41,6 +48,12 @@ function createLabel(forCucc, text) { // label elem letrehozasa
     return label; // visszaadja a letrehozott elemet
 }
 
+/**
+ * input elem letrehozasa
+ * @param {string} id input elem azonosit o
+ * @param {string} name input elem name attributuma
+ * @returns {HTMLInputElement} kesz input elem
+ */
 function createInput(id, name) { // input elem letrehozasa
     const input = document.createElement('input'); // input elem letrehozasa
     input.type = 'text'; // tipus beallitasa
@@ -49,6 +62,11 @@ function createInput(id, name) { // input elem letrehozasa
     return input; // visszaadja a letrehozott elemet
 }
 
+/**
+ * hibauzenet div letrehozasa
+ * @param {string} id hibauzenet div azonositoja
+ * @returns {HTMLDivElement} kesz hibauzenet div
+ */
 function createErrorDiv(id) { // hibauzenet div letrehozasa
     const div = document.createElement('div'); // div elem letrehozasa
     div.id = id; // id beallitasa
@@ -56,6 +74,12 @@ function createErrorDiv(id) { // hibauzenet div letrehozasa
     return div; // visszaadja a letrehozott elemet
 }
 
+/**
+ * komplett form mezo letrehozasa
+ * @param {string} id a mezo azonositoja
+ * @param {string} labelText a cimke szovege
+ * @returns {HTMLDivElement} kesz form mezo container elem
+ */
 function createFormMezo(id, labelText) {
     const container = document.createElement('div'); // div elem letrehozasa a mezonek
     
@@ -78,13 +102,25 @@ function createFormMezo(id, labelText) {
     return container; // visszaadja a letrehozott mezot
 }
 
-// gomb(szab)
+/**
+ * gomb (szab)
+ * gomb elem a form szamara
+ * @param {string} text a gomb szoveg
+ * @returns {HTMLButtonElement} kesz gomb elem
+ */
 function createFormGomb(text) {
     const gomb = document.createElement('button'); // button elem letrehozasa
     gomb.textContent = text; // szoveg beallitasa
     return gomb; // visszaadja a letrehozott elemet
 }
 
+/**
+ * input mezo erteke kitoltott vagy nem
+ * @param {string} inputElem ellenorizendo input mezo ertek
+ * @param {string} errorId hibauzenet id
+ * @param {string} errorMessage megjelenites esetere a hibauzenet
+ * @returns {boolean} igaz ha kitoltott hamis hanem
+ */
 function validateField(inputElem, errorId, errorMessage) { // validacios fuggveny definialasa
     let valid = true; // lokalis valid valtozo igaz ertekre allitasa
     if (inputElem === '') { // ha az input mezo ures
@@ -97,6 +133,12 @@ function validateField(inputElem, errorId, errorMessage) { // validacios fuggven
     return valid; // valid valtozo ertekenek visszaadasa
 }
 
+/**
+ * masodik szerzo es mu ellenorzese
+ * @param {string} szerzo2Ertek masodik szerzo mezoje
+ * @param {string} szerzo2muErtek masodik szerzo muvenek mezoje
+ * @returns {boolean} igaz ha mindketto kitoltott vagy mindketto ures de hamis egyebkent
+ */
 //osszetett validacio linearisan fuggvenybe rakasa
 function validateSzerzok2(szerzo2Ertek, szerzo2muErtek) { // validacios fuggveny definialasa
 
@@ -114,6 +156,10 @@ function validateSzerzok2(szerzo2Ertek, szerzo2muErtek) { // validacios fuggveny
     return valid; // valid valtozo ertekenek visszaadasa
 }
 
+/**
+ * teljes form letrehozasa
+ * @returns {HTMLFormElement} kesz form elem
+ */
 function createForm() { // form letrehozasa
     const form = document.createElement('form'); // form elem letrehozasa
     form.id = 'form'; // id beallitasa
@@ -198,6 +244,12 @@ function createForm() { // form letrehozasa
 
     return form; // visszaadja a letrehozott form elementet
 }
+
+/**
+ * tablazat fejlec generalas
+ * @param {HTMLTableElement} table table a tablazat elem
+ * @param {Array} adatok az adatokat tartalmazo tomb
+ */
 function renderTableHeader(table, adatok) { // fejlec fuggveny definialasa
     const colgroup = document.createElement('colgroup'); // colgroup elem letrehozasa
     table.appendChild(colgroup); // hozzafuzes a tablazathoz
@@ -233,6 +285,10 @@ function renderTableHeader(table, adatok) { // fejlec fuggveny definialasa
     }
 }
 
+/**
+ * teljes tablazat
+ * @param {Array} adatok adatokat tombje
+ */
 function renderMenu(adatok) {
     const table = document.createElement('table'); // table elem letrehozasa
     menuContainer.appendChild(table); // hozzafuzes a menuContainer-hez
