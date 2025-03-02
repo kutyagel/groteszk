@@ -127,6 +127,7 @@ function validateField(inputElem, errorId, errorMessage) { // validacios fuggven
     return valid; // valid valtozo ertekenek visszaadasa
 }
 
+
 form.addEventListener('submit', function(e) {
     e.preventDefault(); // alapertelmezett esemeny megakadalyozasa
     
