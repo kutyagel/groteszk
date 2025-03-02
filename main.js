@@ -115,6 +115,43 @@ renderMenu(); // kezdeti render
 
 const form = document.getElementById('form'); // form elem lekerese ami a form idval van definialva
 
+function validateForm(szarmazas, szerzo1, szerzo1mu, szerzo2, szerzo2mu) { // validacios fuggveny
+    let valid = true; // valid valtozo igazra allitasa
+    
+    const errorElements = document.getElementsByClassName('error');
+    for (const errorElement of errorElements) {
+        errorElement.innerHTML = '';
+    }
+    
+    if (szarmazas === '') { // ha a szarmazas mezo ures
+        document.getElementById('szarmazas-error').innerHTML = 'A származás megadása kötelező!';
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    
+    if (szerzo1 === '') { // ha a szerzo1 mezo ures
+        document.getElementById('szerzo1-error').innerHTML = 'Az 1. szerző megadása kötelező!';
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    
+    if (szerzo1mu === '') { // ha a szerzo1mu mezo ures
+        document.getElementById('szerzo1mu-error').innerHTML = 'Az 1. szerző művének megadása kötelező!';
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    
+    // Paros mezok ellenorzese
+    if (szerzo2 !== '' && szerzo2mu === '') { // ha a szerzo2 kitoltott de a mu2 ures
+        document.getElementById('szerzo2mu-error').innerHTML = 'A 2. szerző művét is meg kell adni!';
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    
+    if (szerzo2 === '' && szerzo2mu !== '') { // ha a szerzo2 ures de a mu2 kitoltott
+        document.getElementById('szerzo2-error').innerHTML = 'A 2. szerzőt is meg kell adni!';
+        valid = false; // valid valtozo hamisra allitasa
+    }
+    
+    return valid; // valid valtozo visszaadasa
+}
+
 form.addEventListener('submit', function(e) {
     e.preventDefault(); // alapertelmezett esemeny megakadalyozasa
     
@@ -123,62 +160,24 @@ form.addEventListener('submit', function(e) {
     const szerzo1muElem = document.getElementById('szerzo1mu'); // szerzo1mu input elem lekerese
     const szerzo2Elem = document.getElementById('szerzo2'); // szerzo2 input elem lekerese
     const szerzo2muElem = document.getElementById('szerzo2mu'); // szerzo2mu input elem lekerese
-    
-    const thisForm = e.currentTarget; // az aktualis form elmentese
-    const errorHtmlElements = thisForm.getElementsByClassName('error'); // hibauzenetek elemek lekerese
-    for (const errorElement of errorHtmlElements) { // vegigmegy az osszes error elemen
-        errorElement.innerHTML = ''; // az errorElement tartalmat uresre allitja
-    }
 
-    const szarmazasErtek = szarmazasElem.value; // szarmazas input ertekenek kiolvasasa
-    const szerzo1Ertek = szerzo1Elem.value; // szerzo1 input ertekenek kiolvasasa
-    const szerzo1muErtek = szerzo1muElem.value; // szerzo1mu input ertekenek kiolvasasa
-    const szerzo2Ertek = szerzo2Elem.value; // szerzo2 input ertekenek kiolvasasa
-    const szerzo2muErtek = szerzo2muElem.value; // szerzo2mu input ertekenek kiolvasasa
-    
-    let valid = true; // validacios valtozo kezdeti ertekre allitasa
-    
-    if (szarmazasErtek === '') { // ellenorzes, hogy a szarmazas ures-e
-        const szarmazasError = document.getElementById('szarmazas-error'); // szarmazas hibauzenet elem lekerese
-        szarmazasError.innerHTML = 'A származás megadása kötelező!'; // hibauzenet beallitasa
-        valid = false; // validacios valtozo hamisra allitasa
-    }
-    
-    if (szerzo1Ertek === '') { // ellenorzes, hogy a szerzo1 ures-e
-        const szerzo1Error = document.getElementById('szerzo1-error'); // szerzo1 hibauzenet elem lekerese
-        szerzo1Error.innerHTML = 'Az 1. szerző megadása kötelező!'; // hibauzenet beallitasa
-        valid = false; // validacios valtozo hamisra allitasa
-    }
-    
-    if (szerzo1muErtek === '') { // ellenorzes, hogy a szerzo1mu ures-e
-        const szerzo1muError = document.getElementById('szerzo1mu-error'); // szerzo1mu hibauzenet elem lekerese
-        szerzo1muError.innerHTML = 'Az 1. szerző művének megadása kötelező!'; // hibauzenet beallitasa
-        valid = false; // validacios valtozo hamisra allitasa
-    }
-    
-    if (szerzo2Ertek !== '' && szerzo2muErtek === '') { // ellenorzes, hogy a szerzo2 kitoltott de a mu2 ures
-        const szerzo2muError = document.getElementById('szerzo2mu-error'); // szerzo2 hibauzenet elem lekerese
-        szerzo2muError.innerHTML = 'A 2. szerző művét is meg kell adni!'; // hibauzenet beallitasa
-        valid = false; // validacios valtozo hamisra allitasa
-    }
-    
-    if (szerzo2Ertek === '' && szerzo2muErtek !== '') { // ellenorzes, hogy a szerzo2 ures de a mu2 kitoltott
-        const szerzo2Error = document.getElementById('szerzo2-error'); // szerzo2mu hibauzenet elem lekerese
-        szerzo2Error.innerHTML = 'A 2. szerzőt is meg kell adni!'; // hibauzenet beallitasa
-        valid = false; // validacios valtozo hamisra allitasa
-    }
-    
-    if (valid) { // ha a valid valtozo meg mindig igaz
+    const szarmazasErtek = szarmazasElem.value; // szarmazas input kiolvasasa
+    const szerzo1Ertek = szerzo1Elem.value; // szerzo1 input kiolvasasa
+    const szerzo1muErtek = szerzo1muElem.value; // szerzo1mu input kiolvasasa
+    const szerzo2Ertek = szerzo2Elem.value; // szerzo2 input kiolvasasa
+    const szerzo2muErtek = szerzo2muElem.value; // szerzo2mu input kiolvasasa
+
+    if (validateForm(szarmazasErtek, szerzo1Ertek, szerzo1muErtek, szerzo2Ertek, szerzo2muErtek)) { // telenfonalas
         const ujElem = { // definialunk egy uj elemet
-            nemzetiseg: szarmazasErtek, // az uj objektum nemzetiseg erteke a szarmazasErtek lesz
-            szerzo1: szerzo1Ertek, // az uj objektum szerzo1 erteke a szerzo1Ertek lesz
-            mu1: szerzo1muErtek, // az uj objektum mu1 erteke a szerzo1muErtek lesz
+            nemzetiseg: szarmazasErtek, // nemzetiseg erteke a szarmazasErtek lesz
+            szerzo1: szerzo1Ertek, // szerzo1 erteke a szerzo1Ertek lesz
+            mu1: szerzo1muErtek, // mu1 erteke a szerzo1muErtek lesz
         };
         
         // ha van masodik szerzo
-        if (szerzo2Ertek !== '' && szerzo2muErtek !== '') { // ellenorzes, hogy mindket masodik szerzo mezo ki van toltve
-            ujElem.szerzo2 = szerzo2Ertek; // az uj objektum szerzo2 erteke a szerzo2Ertek lesz
-            ujElem.mu2 = szerzo2muErtek; // az uj objektum mu2 erteke a szerzo2muErtek lesz
+        if (szerzo2Ertek !== '' && szerzo2muErtek !== '') { // mindket masodik szerzo mezo ki van toltve
+            ujElem.szerzo2 = szerzo2Ertek; // szerzo2 erteke a szerzo2Ertek lesz
+            ujElem.mu2 = szerzo2muErtek; // mu2 erteke a szerzo2muErtek lesz
         }
         
         array.push(ujElem); // uj elem hozzaadasa a tombhoz
