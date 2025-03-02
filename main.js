@@ -33,10 +33,7 @@ const array = [ // tomb letrehozasa
 const menuContainer = document.createElement('div'); // div elem letrehozasa ami a tartalmazza a tablazatot
 document.body.appendChild(menuContainer); // hozzafuzes a bodyhoz
 
-function renderMenu() {
-    const table = document.createElement('table'); // table elem letrehozasa
-    menuContainer.appendChild(table); // hozzafuzes a menuContainer-hez
-
+function renderTableHeader(table) { // fejlec fuggveny definialasa
     const colgroup = document.createElement('colgroup'); // colgroup elem letrehozasa
     table.appendChild(colgroup); // hozzafuzes a tablazathoz
 
@@ -47,7 +44,7 @@ function renderMenu() {
     const col2 = document.createElement('col'); // col2 elem letrehozasa
     colgroup.appendChild(col2); // hozzafuzes a colgrouphoz
 
-    const col3 = document.createElement('col'); // co3l elem letrehozasa
+    const col3 = document.createElement('col'); // col3 elem letrehozasa
     col3.className = 'columbia'; // osztaly beallitas
     colgroup.appendChild(col3); // hozzafuzes a colgrouphoz
     
@@ -58,18 +55,25 @@ function renderMenu() {
     const fejlecSor = document.createElement('tr'); // tr elem letrehozasa a fejlec sorahoz
     fejlec.appendChild(fejlecSor); // sor hozzafuzese a fejlechez
     
-    const fejlecCella1 = document.createElement('th'); // th elem letrehozasa az elso fejlec cellahoz
-    fejlecCella1.innerHTML = array[0].nemzetiseg; // cella tartalma az elso elem nemzetiseg tulajdonsaga
-    fejlecSor.appendChild(fejlecCella1); // cella hozzafuzese a fejlec sorhoz
-    
-    const fejlecCella2 = document.createElement('th'); // th elem letrehozasa a masodik fejlec cellahoz
-    fejlecCella2.innerHTML = array[0].szerzo1; // cella tartalma az elso elem szerzo1 tulajdonsaga
-    fejlecSor.appendChild(fejlecCella2); // cella hozzafuzese a fejlec sorhoz
-    
-    const fejlecCella3 = document.createElement('th'); // th elem letrehozasa a harmadik fejlec cellahoz
-    fejlecCella3.innerHTML = array[0].mu1; // cella tartalma az elso elem mu1 tulajdonsaga
-    fejlecSor.appendChild(fejlecCella3); // cella hozzafuzese a fejlec sorhoz
-    
+// Ciklus a fejlec oszlopainak generalasahoz
+    const fejlecOszlopok = [ // fejlec oszlopok definialasa
+        { nev: 'nemzetiseg', szoveg: array[0].nemzetiseg, oszlopSpan: 1 }, // elso oszlop definialasa
+        { nev: 'szerzo1', szoveg: array[0].szerzo1, oszlopSpan: 1 }, // masodik oszlop definialasa
+        { nev: 'mu1', szoveg: array[0].mu1, oszlopSpan: 1 } // harmadik oszlop definialasa
+    ];
+    for (const oszlop of fejlecOszlopok) { // vegigiteralas az oszlopokon
+        const fejlecCella = document.createElement('th'); // th elem letrehozasa a fejlec cellahoz
+        fejlecCella.innerHTML = oszlop.szoveg; // cella tartalmanak beallitasa
+        fejlecSor.appendChild(fejlecCella); // cella hozzafuzese a fejlec sorhoz
+    }
+}
+
+function renderMenu() {
+    const table = document.createElement('table'); // table elem letrehozasa
+    menuContainer.appendChild(table); // hozzafuzes a menuContainer-hez
+
+    renderTableHeader(table); // fejlec generalasa
+
     // torzs
     const torzs = document.createElement('tbody'); // tbody elem letrehozasa a tablazat torzsehez
     table.appendChild(torzs); // torzs hozzafuzese a tablazathoz
